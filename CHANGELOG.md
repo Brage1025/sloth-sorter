@@ -10,6 +10,10 @@ All notable changes to this project are listed here. The format follows [Keep a 
 - CONTRIBUTING guide and this changelog.
 - README section on current limits.
 
+### Fixed
+- Files created a moment ago could be skipped by a scan on Windows and macOS (clock rounding). Found by the new cross-platform tests.
+- A PDF that one PDF engine cannot open is now retried with the two other engines before falling back to sorting by file type.
+
 ## 1.0.0 (not yet released)
 
 First version.
