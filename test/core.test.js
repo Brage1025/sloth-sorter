@@ -283,7 +283,7 @@ test('safety net: "Other" for a photo/document and "Code & Data" for a text file
 
 test('PDF: samples later pages so a manual that opens with a health warning is still identified', async () => {
   const r = await extract(path.join(__dirname, 'fixtures', 'game-manual.pdf'));
-  assert.equal(r.kind, 'text');
+  assert.equal(r.kind, 'text', r.error);
   assert.ok(/Dead or Alive Xtreme 2/.test(r.text), 'later page content must reach the model');
   assert.ok(/PDF title: Game Manual/.test(r.text), 'PDF metadata title is included');
 });

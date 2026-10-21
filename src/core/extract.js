@@ -156,8 +156,9 @@ async function extract(file, { maxChars = 1800, imageEncoder, wantImage = false,
       const image = await imageEncoder(file);
       return image ? { kind: 'image', image } : { kind: 'none' };
     }
-  } catch {
-    /* unreadable, encrypted, corrupt... just skip the snippet */
+  } catch (err) {
+    /* unreadable, encrypted, corrupt... just skip the snippet (the reason is kept for debugging) */
+    return { kind: 'none', error: String((err && err.stack) || err) };
   }
   return { kind: 'none' };
 }
