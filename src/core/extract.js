@@ -87,23 +87,56 @@ function pdfClues(pages) {
   return lines.join('\n');
 }
 
+const PDF_FALLBACKS = ['v2.0.550', 'v1.9.426'];
+
+function pageText(tc) {
+  let lastY;
+  let text = '';
+  for (const item of tc.items) {
+    text += lastY === item.transform[5] || lastY === undefined ? item.str : `\n${item.str}`;
+    lastY = item.transform[5];
+  }
+  return text;
+}
+
+/** Read every page's text. Uses pdf-parse; if its PDF engine chokes on a file, tries the other engines it ships with. */
+async function readPdf(buffer) {
+  const pages = [];
+  try {
+    const pdf = require('pdf-parse/lib/pdf-parse.js');
+    const pagerender = (pageData) =>
+      pageData.getTextContent({ normalizeWhitespace: false, disableCombineTextItems: false }).then((tc) => {
+        const text = pageText(tc);
+        pages.push(text);
+        return text;
+      });
+    const data = await pdf(buffer, { max: 150, pagerender });
+    return { pages, data };
+  } catch (firstError) {
+    for (const v of PDF_FALLBACKS) {
+      try {
+        const PDFJS = require(`pdf-parse/lib/pdf.js/${v}/build/pdf.js`);
+        PDFJS.disableWorker = true;
+        const doc = await PDFJS.getDocument(new Uint8Array(buffer));
+        const out = [];
+        for (let i = 1; i <= Math.min(doc.numPages, 150); i++) {
+          const page = await doc.getPage(i);
+          out.push(pageText(await page.getTextContent({ normalizeWhitespace: false, disableCombineTextItems: false })));
+        }
+        const meta = await doc.getMetadata().catch(() => null);
+        return { pages: out, data: { numpages: doc.numPages, info: (meta && meta.info) || {} } };
+      } catch {
+        /* try the next engine */
+      }
+    }
+    throw firstError;
+  }
+}
+
 async function extractPdf(file, { maxChars, wantImage, pdfRenderer }) {
   // Manuals and contracts often open with warnings or legal text, so sample several pages,
   // add clues from the whole document, and include the PDF's own title if it has one.
-  const pdf = require('pdf-parse/lib/pdf-parse.js');
-  const pages = [];
-  const pagerender = (pageData) =>
-    pageData.getTextContent({ normalizeWhitespace: false, disableCombineTextItems: false }).then((tc) => {
-      let lastY;
-      let text = '';
-      for (const item of tc.items) {
-        text += lastY === item.transform[5] || lastY === undefined ? item.str : `\n${item.str}`;
-        lastY = item.transform[5];
-      }
-      pages.push(text);
-      return text;
-    });
-  const data = await pdf(fs.readFileSync(file), { max: 150, pagerender });
+  const { pages, data } = await readPdf(fs.readFileSync(file));
   const totalChars = pages.reduce((n, t) => n + t.trim().length, 0);
 
   if (totalChars < 40) {
