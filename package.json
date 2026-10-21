@@ -1,0 +1,76 @@
+{
+  "name": "sloth-sorter",
+  "productName": "Sloth Sorter",
+  "version": "1.0.0",
+  "description": "A lazy, private file tidier powered by a local open-weight AI model.",
+  "main": "src/main.js",
+  "author": "Sloth Sorter contributors",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test \"test/*.test.js\"",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "prestart": "node node_modules/electron/install.js",
+    "predist": "node node_modules/electron/install.js"
+  },
+  "dependencies": {
+    "mammoth": "^1.13.0",
+    "pdf-parse": "1.1.1",
+    "pdfjs-dist": "^6.4.299"
+  },
+  "devDependencies": {
+    "electron": "^44.9.1",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "dev.slothsorter.app",
+    "productName": "Sloth Sorter",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility"
+    },
+    "artifactName": "Sloth-Sorter-${version}-${os}-${arch}.${ext}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Brage1025/sloth-sorter.git"
+  }
+}

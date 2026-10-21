@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self'">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sloth Sorter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <img src="assets/logo.svg" alt="" class="logo">
+        <div>
+          <h1>Sloth Sorter</h1>
+          <p class="tag">Does the tidying so you don't have to.</p>
+        </div>
+      </div>
+      <nav id="nav" aria-label="Sections">
+        <button data-view="tidy" class="active">Tidy</button>
+        <button data-view="sleep">Sleep mode</button>
+        <button data-view="history">History</button>
+        <button data-view="settings">Settings</button>
+      </nav>
+    </header>
+
+    <main id="main" tabindex="-1"></main>
+
+    <footer class="foot">
+      <span id="brain" class="pill"></span>
+      <span class="privacy">Everything runs on this computer. Your files never leave it.</span>
+    </footer>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
