@@ -226,7 +226,7 @@ function fakeOllama(answer, { vision = false } = {}) {
       res.end(JSON.stringify({ message: { content: JSON.stringify(answer(user ? user.content : '')) } }));
     });
   });
-  return new Promise((r) => server.listen(0, '127.0.0.1', () => r({ url: `http://127.0.0.1:${server.address().port}`, close: () => server.close() })));
+  return new Promise((r) => server.listen(0, '127.0.0.1', () => r({ url: `http://127.0.0.1:${server.address().port}`, close: () => { server.close(); server.closeAllConnections(); } })));
 }
 
 test('prompt no longer leaks the file date, and a made-up or "today" date is thrown away', async () => {

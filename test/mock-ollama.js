@@ -71,7 +71,7 @@ function startMock({ port = 0, models = ['gemma3:4b'], latencyMs = 0, pullMs = 2
   });
   return new Promise((resolve) =>
     server.listen(port, '127.0.0.1', () =>
-      resolve({ server, state, url: `http://127.0.0.1:${server.address().port}`, close: () => server.close() })
+      resolve({ server, state, url: `http://127.0.0.1:${server.address().port}`, close: () => { server.close(); server.closeAllConnections(); } })
     )
   );
 }
