@@ -287,7 +287,11 @@ test('PDF: samples later pages so a manual that opens with a health warning is s
     const raw = fs.readFileSync(path.join(__dirname, 'fixtures', 'game-manual.pdf'));
     let crlf = 0;
     for (let i = 1; i < raw.length; i++) if (raw[i] === 10 && raw[i - 1] === 13) crlf++;
-    assert.fail(`could not read the fixture: ${r.error}\nfile size ${raw.length} bytes (expected 21325), ${crlf} CRLF pairs (expected 0)`);
+    const expected = ['8a53f0', '28eba7', '65fb54', '6ecd31', 'a7da79', 'e4c194', '2945e6', 'ec0e46', 'f40a1e', '150222', '605b4e', '6e4f82', '1ee26e', 'd6be6e', '04a56f', 'b41f03', '89d974', '1711c9', '670b27', '509687', 'f0f024'];
+    const got = [];
+    for (let i = 0; i < raw.length; i += 1024) got.push(require('crypto').createHash('sha256').update(raw.subarray(i, i + 1024)).digest('hex').slice(0, 6));
+    const diff = got.map((h, i) => (h === expected[i] ? null : i)).filter((x) => x !== null);
+    assert.fail(`could not read the fixture: ${r.error}\nfile size ${raw.length} bytes (expected 21325), ${crlf} CRLF pairs (expected 0)\nKB blocks that differ from the original: ${JSON.stringify(diff)}`);
   }
   assert.ok(/Dead or Alive Xtreme 2/.test(r.text), 'later page content must reach the model');
   assert.ok(/PDF title: Game Manual/.test(r.text), 'PDF metadata title is included');
