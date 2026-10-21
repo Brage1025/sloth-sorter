@@ -1,5 +1,5 @@
 'use strict';
-const { app, BrowserWindow, ipcMain, dialog, shell, Tray, Menu, Notification, nativeImage } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell, Tray, Menu, Notification, nativeImage, nativeTheme } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
@@ -39,6 +39,7 @@ function loadSettings() {
   settings = { ...DEFAULT_SETTINGS, ...saved };
   if (!settings.folder) settings.folder = process.env.SLOTH_FOLDER || app.getPath('downloads');
   if (process.env.SLOTH_OLLAMA_HOST) settings.host = process.env.SLOTH_OLLAMA_HOST;
+  if (!['dark', 'light', 'system'].includes(settings.theme)) settings.theme = 'dark';
   if (!Array.isArray(settings.categories) || !settings.categories.length) settings.categories = DEFAULT_CATEGORIES;
 }
 
@@ -46,10 +47,22 @@ function saveSettings(patch) {
   settings = { ...settings, ...patch };
   fs.mkdirSync(path.dirname(settingsFile()), { recursive: true });
   fs.writeFileSync(settingsFile(), JSON.stringify(settings, null, 2));
+  if (patch.theme !== undefined) applyTheme();
   if (patch.startAtLogin !== undefined) {
     app.setLoginItemSettings({ openAtLogin: !!settings.startAtLogin, args: ['--hidden'] });
   }
   return settings;
+}
+
+const THEME_BG = { dark: '#24201b', light: '#f6f1e7' };
+/** Match the window frame, background and native controls (drop-downs, scroll bars) to the chosen theme. */
+function applyTheme() {
+  if (!['dark', 'light', 'system'].includes(settings.theme)) settings.theme = 'dark';
+  nativeTheme.themeSource = settings.theme;
+  if (win && !win.isDestroyed()) {
+    const dark = settings.theme === 'dark' || (settings.theme === 'system' && nativeTheme.shouldUseDarkColors);
+    win.setBackgroundColor(dark ? THEME_BG.dark : THEME_BG.light);
+  }
 }
 
 // ---------- helpers ----------
@@ -228,7 +241,7 @@ function createWindow() {
     minHeight: 620,
     show: !startHidden,
     title: 'Sloth Sorter',
-    backgroundColor: '#f6f1e7',
+    backgroundColor: settings.theme === 'light' ? THEME_BG.light : THEME_BG.dark,
     icon: path.join(__dirname, 'renderer', 'assets', 'icon.png'),
     autoHideMenuBar: true,
     webPreferences: {
@@ -303,6 +316,7 @@ if (!gotLock) {
     pdfRenderer = new PdfRenderer();
     cache = new ResultCache(path.join(app.getPath('userData'), 'cache.json'));
     registerIpc();
+    applyTheme();
     createWindow();
     createTray();
     watcher = createWatcher({

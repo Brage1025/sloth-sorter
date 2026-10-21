@@ -67,6 +67,7 @@ const DEFAULT_SETTINGS = {
   useVision: true, // look at photos too (slower on computers without a good graphics card)
   rename: true,
   keepGoodNames: true,
+  theme: 'dark', // 'dark' | 'light' | 'system'
   sortedFolder: 'Sorted',
   autoMode: false,
   autoMinutes: 5, // how long a file must sit untouched before auto mode picks it up

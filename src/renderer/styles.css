@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --bg: #f6f1e7;
   --card: #fffaf0;
   --card-2: #f0e8d8;
@@ -11,12 +12,31 @@
   --amber: #b9741f;
   --amber-soft: #f8e6c8;
   --danger: #a8402f;
+  --scroll: #cdbf9f;
   --shadow: 0 1px 2px rgba(59, 49, 40, 0.06), 0 8px 24px rgba(59, 49, 40, 0.06);
   --radius: 16px;
   --font: ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #24201b;
+  --card: #2f2a23;
+  --card-2: #38322a;
+  --ink: #f1e9da;
+  --ink-soft: #b3a591;
+  --line: #453e33;
+  --moss: #8bb36f;
+  --moss-ink: #1d2415;
+  --moss-soft: #34422b;
+  --amber: #e0a24e;
+  --amber-soft: #4a3a20;
+  --danger: #e27f6d;
+  --scroll: #6a604f;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+}
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root[data-theme="system"] {
+    color-scheme: dark;
     --bg: #24201b;
     --card: #2f2a23;
     --card-2: #38322a;
@@ -29,6 +49,7 @@
     --amber: #e0a24e;
     --amber-soft: #4a3a20;
     --danger: #e27f6d;
+    --scroll: #6a604f;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
   }
 }
@@ -188,7 +209,7 @@ button.btn.danger:hover { filter: brightness(1.1); }
 ::-webkit-scrollbar { width: 14px; height: 14px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--line);
+  background: var(--scroll);
   border: 4px solid transparent;
   background-clip: content-box;
   border-radius: 999px;
@@ -199,3 +220,6 @@ button.btn.danger:hover { filter: brightness(1.1); }
 ::-webkit-scrollbar-corner { background: transparent; }
 textarea::-webkit-scrollbar { width: 12px; }
 textarea::-webkit-scrollbar-thumb { border-width: 3px; }
+
+.folder-ico { color: var(--amber); vertical-align: -3px; flex: none; }
+.cat-name { display: inline-flex; align-items: center; gap: 8px; }

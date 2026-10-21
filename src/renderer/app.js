@@ -69,14 +69,16 @@
     return d.toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
   };
 
+  const applyTheme = () => { document.documentElement.dataset.theme = (S.st && S.st.settings && S.st.settings.theme) || 'dark'; };
+
   async function saveSettings(patch) {
     const res = await call('save-settings', patch);
-    if (res && !res.error) S.st.settings = res;
+    if (res && !res.error) { S.st.settings = res; applyTheme(); }
     return res;
   }
   async function refreshState() {
     const st = await call('get-state');
-    if (st && !st.error) S.st = st;
+    if (st && !st.error) { S.st = st; applyTheme(); }
   }
 
   // ---------- chrome: nav + footer ----------
@@ -125,7 +127,7 @@
           ${quickFolders.map((f) => `<button class="chip ${f.path === settings.folder ? 'on' : ''}" data-folder="${esc(f.path)}">${esc(f.label)}</button>`).join('')}
           <button class="chip" id="pick">Choose another…</button>
         </div>
-        <div class="folder-box"><span aria-hidden="true">📁</span><span class="path mono" title="${esc(settings.folder)}">${esc(shortPath(settings.folder))}</span></div>
+        <div class="folder-box"><svg class="folder-ico" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.2c.4 0 .8.2 1.1.5L11.2 7H19.5A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z" fill="currentColor"/></svg><span class="path mono" title="${esc(settings.folder)}">${esc(shortPath(settings.folder))}</span></div>
         ${S.error ? `<div class="notice">${esc(S.error)}</div>` : ''}
         <div class="row" style="margin-top:14px">
           <button class="btn primary big" id="go">Take a look</button>
@@ -206,7 +208,7 @@
       <p class="soft">Look it over. Rename anything, change a folder, or untick files you want left alone.</p>
       <div id="groups">${groups.map(([c, list]) => `
         <section class="cat">
-          <div class="cat-head"><span>📂 ${esc(c)}</span><span class="count">${plural(list.length, 'file', 'files')}</span></div>
+          <div class="cat-head"><span class="cat-name"><svg class="folder-ico" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.2c.4 0 .8.2 1.1.5L11.2 7H19.5A1.5 1.5 0 0 1 21 8.5v9A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5z" fill="currentColor"/></svg> ${esc(c)}</span><span class="count">${plural(list.length, 'file', 'files')}</span></div>
           <div class="card" style="padding:0">${list.map((it) => fileRow(it, cats)).join('')}</div>
         </section>`).join('')}
       </div>
@@ -441,6 +443,10 @@
         <h3>How I sort</h3>
         <div class="row spread"><div class="grow">Look at photos<div class="small soft">The AI describes pictures to name and sort them. This is the slowest part, especially on computers without a good graphics card. Off = photos are sorted by type only.</div></div>
           <label class="switch"><input type="checkbox" id="vision" ${s.useVision !== false ? 'checked' : ''}><span></span></label></div>
+        <div class="row spread"><label for="theme" class="grow">Appearance<div class="small soft">Dark is the default.</div></label>
+          <select id="theme">
+            ${[['dark', 'Dark'], ['light', 'Light'], ['system', 'Match my computer']].map(([v, l]) => `<option value="${v}" ${s.theme === v ? 'selected' : ''}>${l}</option>`).join('')}
+          </select></div>
         <div class="row spread"><div class="grow">Rename messy files<div class="small soft">Turns <span class="mono">IMG_2231.jpg</span> into something readable.</div></div>
           <label class="switch"><input type="checkbox" id="rename" ${s.rename ? 'checked' : ''}><span></span></label></div>
         <div class="row spread"><div class="grow">Leave good names alone<div class="small soft">Only rename files whose names are cryptic.</div></div>
@@ -479,6 +485,7 @@
     $('#custom', main).onchange = (e) => setModel(e.target.value.trim());
     $('#vision', main).onchange = (e) => saveSettings({ useVision: e.target.checked });
     $('#rename', main).onchange = (e) => saveSettings({ rename: e.target.checked });
+    $('#theme', main).onchange = (e) => saveSettings({ theme: e.target.value });
     $('#keep', main).onchange = (e) => saveSettings({ keepGoodNames: e.target.checked });
     $('#sorted', main).onchange = (e) => saveSettings({ sortedFolder: e.target.value.trim() || 'Sorted' });
     $('#savecats', main).onclick = async () => {
