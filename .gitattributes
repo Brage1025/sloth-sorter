@@ -9,3 +9,6 @@
 *.icns binary
 *.docx binary
 *.zip binary
+*.xlsx binary
+*.mp3 binary
+*.exe binary

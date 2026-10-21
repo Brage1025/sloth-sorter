@@ -1,0 +1,8 @@
+Q3 planning meeting notes
+Agenda: roadmap review, hiring, budget.
+
+Decisions:
+- Ship the new onboarding flow before the quarterly review.
+- Open two engineering roles in October.
+- Move the roadmap check-in to every other Tuesday.
+Action items: Sam drafts the hiring plan, Priya updates the roadmap.

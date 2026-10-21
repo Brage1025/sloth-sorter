@@ -45,6 +45,10 @@ Switch on **Sleep mode** and Sloth Sorter quietly tidies your Downloads folder i
 
 If the AI isn't available for any reason, it falls back to plain sorting by file type, so it's never useless.
 
+## Try it with sample files
+
+The [`sample-files`](sample-files) folder is a made-up messy folder you can copy and tidy to see everything in action, from invoices and scanned receipts to a manual with the product name hidden on the last page.
+
 ## Why open models?
 
 A file tidier has to *read your files*: invoices, lease letters, tax papers. That is exactly what you shouldn't upload to someone else's server. Running an open-weight model locally means:

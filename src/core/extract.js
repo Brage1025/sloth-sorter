@@ -45,13 +45,6 @@ function stripMarkup(text, ext) {
   return text;
 }
 
-/** Which pages to read: first three, the middle, last two (all of them for short documents). */
-function samplePages(total) {
-  if (total <= 7) return new Set([...Array(total).keys()]);
-  return new Set([0, 1, 2, Math.floor(total / 2), total - 2, total - 1]);
-}
-
-
 // ---- PDFs -------------------------------------------------------------------------------------
 const CAPS_STOP = /^(WARNING|CAUTION|NOTE|IMPORTANT|NOTICE|CONTENTS|TABLE OF CONTENTS|WARRANTY|DISCLAIMER|SAFETY|HEALTH|PAGE|INDEX|START|BACK|MENU|FAQ)\b/;
 // Titles that PDF software fills in automatically and that say nothing about the content.
