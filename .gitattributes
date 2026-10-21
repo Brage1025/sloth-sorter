@@ -1,0 +1,11 @@
+# Keep line endings as they are in binary-ish files. Without this, Git on Windows rewrites
+# line breaks inside test PDFs and corrupts them.
+* text=auto
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.icns binary
+*.docx binary
+*.zip binary
