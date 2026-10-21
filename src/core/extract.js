@@ -158,7 +158,7 @@ async function extract(file, { maxChars = 1800, imageEncoder, wantImage = false,
     }
   } catch (err) {
     /* unreadable, encrypted, corrupt... just skip the snippet (the reason is kept for debugging) */
-    return { kind: 'none', error: String((err && err.stack) || err) };
+    return { kind: 'none', error: `${err && err.name}: ${err && err.message}` };
   }
   return { kind: 'none' };
 }
