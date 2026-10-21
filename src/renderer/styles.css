@@ -183,3 +183,19 @@ button.btn.danger:hover { filter: brightness(1.1); }
 .modal h3 { margin: 0 0 8px; }
 .modal p { margin: 0 0 16px; color: var(--ink-soft); }
 .modal .row { justify-content: flex-end; gap: 8px; }
+
+/* Scroll bars: slim, rounded, in the app's own colours. */
+::-webkit-scrollbar { width: 14px; height: 14px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border: 4px solid transparent;
+  background-clip: content-box;
+  border-radius: 999px;
+  min-height: 40px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ink-soft); background-clip: content-box; }
+::-webkit-scrollbar-thumb:active { background: var(--moss); background-clip: content-box; }
+::-webkit-scrollbar-corner { background: transparent; }
+textarea::-webkit-scrollbar { width: 12px; }
+textarea::-webkit-scrollbar-thumb { border-width: 3px; }
