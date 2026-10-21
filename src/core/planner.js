@@ -33,7 +33,7 @@ function scanFolder(dir, { minAgeMs = 0, now = Date.now() } = {}) {
     } catch {
       continue;
     }
-    if (now - st.mtimeMs < minAgeMs) continue; // probably still in use
+    if (minAgeMs > 0 && now - st.mtimeMs < minAgeMs) continue; // probably still in use (no age rule = take everything)
     out.push({ name, path: full, size: st.size, mtime: st.mtimeMs });
   }
   return out.sort((a, b) => a.name.localeCompare(b.name));
