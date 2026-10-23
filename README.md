@@ -19,16 +19,31 @@ The screenshots show the app in its default dark look, on a folder of made-up de
 
 ## For everyone: install it
 
-1. Go to the **Releases** page and download the installer for your computer:
-   - **Windows:** `Sloth-Sorter-…-win-x64.exe`
-   - **Mac:** `Sloth-Sorter-…-mac-arm64.dmg` (Apple chip, 2020 and newer) or `…-mac-x64.dmg` (Intel)
-2. Open it. The first time, your computer may warn that the app is from an "unidentified developer" because it isn't code-signed yet:
-   - **Windows:** click **More info → Run anyway**.
-   - **Mac:** drag it to Applications, then **right-click → Open → Open**.
-3. Follow the two friendly setup steps inside the app (install the free **Ollama** engine, then download the "brain"). It takes about five minutes, once.
-4. Pick a folder, press **Take a look**, check the plan, press **Tidy**.
+**[Download the latest version](https://github.com/Brage1025/sloth-sorter/releases/latest)**
 
-That's it. Made a mistake? **History → Undo**.
+Open that page, scroll to **Assets**, and download the file for your computer:
+
+| Your computer | Download |
+|---|---|
+| Windows 10 or 11 | `Sloth-Sorter-1.0.0-win-x64.exe` |
+| Mac with an Apple chip (2020 and newer) | `Sloth-Sorter-1.0.0-mac-arm64.dmg` |
+| Mac with an Intel chip | `Sloth-Sorter-1.0.0-mac-x64.dmg` |
+| Linux | `Sloth-Sorter-1.0.0-linux-x86_64.AppImage` |
+
+The version number in the file name changes with each release. Don't download "Source code" unless you want to build it yourself (see below).
+
+### Install and first start
+
+1. **Open the file you downloaded.** The first time, your computer may warn that the app is from an unknown publisher, because the installers aren't code-signed yet (certificates cost money). The app is open source, and you can read every line of it in this repository.
+   - **Windows:** if a blue "Windows protected your PC" box appears, click **More info**, then **Run anyway**. The installer then runs and puts Sloth Sorter in your Start menu.
+   - **Mac:** drag Sloth Sorter to **Applications**, then **right-click it and choose Open**, then **Open** again. You only need to do this once.
+   - **Linux:** right-click the file, open **Properties**, and allow it to run as a program (or run `chmod +x` on it), then double-click it.
+2. **Follow the two setup steps inside the app.** It guides you to install the free **Ollama** engine, then download the "brain" (about 3 GB). It takes about five minutes, once, and needs internet only for this step.
+3. **Pick a folder**, press **Take a look**, check the plan, and press **Tidy**.
+
+That's it. Made a mistake? **History, then Undo**.
+
+Want to try it safely first? Copy the [`sample-files`](sample-files) folder to your Desktop and tidy that.
 
 ### Go full sloth: Sleep mode
 Switch on **Sleep mode** and Sloth Sorter quietly tidies your Downloads folder in the background, only touching files you haven't used for a few minutes. Close the window; it keeps sleeping in your tray / menu bar.
@@ -44,10 +59,6 @@ Switch on **Sleep mode** and Sloth Sorter quietly tidies your Downloads folder i
 | Keep a full undo history | Changes a file's extension |
 
 If the AI isn't available for any reason, it falls back to plain sorting by file type, so it's never useless.
-
-## Try it with sample files
-
-The [`sample-files`](sample-files) folder is a made-up messy folder you can copy and tidy to see everything in action, from invoices and scanned receipts to a manual with the product name hidden on the last page.
 
 ## Why open models?
 
