@@ -37,6 +37,8 @@ jobs:
       - uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
+          draft: true # review the installers before anyone can see the release
+          prerelease: ${{ contains(github.ref_name, '-') }} # tags like v0.1.0-rc1
           files: |
             dist/*.exe
             dist/*.dmg
