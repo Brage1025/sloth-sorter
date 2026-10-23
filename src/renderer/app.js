@@ -377,18 +377,25 @@
           <select id="mins">${[2, 5, 10, 30, 60].map((m) => `<option value="${m}" ${m === s.autoMinutes ? 'selected' : ''}>${m} minutes</option>`).join('')}</select>
         </div>
         <div class="row spread">
-          <label for="login" class="grow">Start Sloth Sorter when I log in</label>
+          <label for="login" class="grow">Start Sloth Sorter at start up</label>
           <label class="switch"><input type="checkbox" id="login" ${s.startAtLogin ? 'checked' : ''}><span></span></label>
+        </div>
+        <div class="row spread">
+          <label for="tray" class="grow">Keep sleeping in the ${S.st.platform === 'darwin' ? 'menu bar' : 'system tray'} when I close the window</label>
+          <label class="switch"><input type="checkbox" id="tray" ${s.keepInTray !== false ? 'checked' : ''}><span></span></label>
         </div>
       </section>
       <div class="notice good">
-        Closing the window won't stop it. Sloth Sorter keeps sleeping in your ${S.st.platform === 'darwin' ? 'menu bar' : 'system tray'}.
+        ${s.keepInTray !== false
+          ? `Closing the window won't stop it. Sloth Sorter keeps sleeping in your ${S.st.platform === 'darwin' ? 'menu bar' : 'system tray'}.`
+          : 'Closing the window quits Sloth Sorter, and Sleep mode stops until you open it again.'}
         Every automatic tidy shows up in <b>History</b>, where you can undo it. If the AI isn't ready, Sleep mode waits instead of sorting badly.
       </div>
       ${S.lastAuto ? `<p class="small soft" style="margin-top:12px">Last automatic tidy: ${plural(S.lastAuto.moved, 'file', 'files')} at ${esc(new Date(S.lastAuto.at).toLocaleTimeString())}.</p>` : ''}`;
     $('#auto', main).onchange = async (e) => { await call('set-auto', e.target.checked); await refreshState(); toast(e.target.checked ? 'Sleep mode on. Go relax.' : 'Sleep mode off.'); };
     $('#mins', main).onchange = (e) => saveSettings({ autoMinutes: +e.target.value });
     $('#login', main).onchange = (e) => saveSettings({ startAtLogin: e.target.checked });
+    $('#tray', main).onchange = async (e) => { await saveSettings({ keepInTray: e.target.checked }); renderSleep(main); };
   }
 
   // ---------- HISTORY ----------
@@ -462,7 +469,7 @@
           <button class="btn danger" id="forget">Forget</button></div>
       </section>
       <section class="card small soft">
-        <b>Sloth Sorter ${esc(S.st.version)}</b> · open source (MIT). Powered by open-weight models running through Ollama on this computer.
+        <b>Sloth Sorter ${esc(S.st.version)}</b> is an open source (MIT) project created by <a href="https://github.com/Brage1025/" target="_blank" rel="noopener noreferrer">Brage1025</a>. Powered by open-weight models running through Ollama on this computer.
         It never uploads anything, and it never deletes your files.
       </section>`;
 

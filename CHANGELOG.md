@@ -5,12 +5,16 @@ All notable changes to this project are listed here. The format follows [Keep a 
 ## Unreleased
 
 ### Added
+- Sleep mode: option to keep sleeping in the tray or menu bar when the window is closed (on by default).
 - `sample-files` folder with made-up messy files for trying the app.
 - Dark and light appearance in Settings (dark by default, or match the computer).
 - Settings: "Forget what I've learned" button (with an "are you sure" box) that clears remembered results so the next scan looks at every file again.
 - Tests run automatically on Windows, macOS and Linux for every push and pull request.
 - CONTRIBUTING guide and this changelog.
 - README section on current limits.
+
+### Changed
+- "Start Sloth Sorter when I log in" is now worded "Start Sloth Sorter at start up".
 
 ### Fixed
 - Files created a moment ago could be skipped by a scan on Windows and macOS (clock rounding). Found by the new cross-platform tests.

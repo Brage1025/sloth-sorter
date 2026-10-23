@@ -257,8 +257,15 @@ function createWindow() {
     if (/^https:\/\//.test(url)) shell.openExternal(url);
     return { action: 'deny' };
   });
+  // A link must never replace the app's own page: open web links in the browser instead.
+  win.webContents.on('will-navigate', (e, url) => {
+    if (url !== win.webContents.getURL()) {
+      e.preventDefault();
+      if (/^https:\/\//.test(url)) shell.openExternal(url);
+    }
+  });
   win.on('close', (e) => {
-    if (!quitting && settings.autoMode && tray) {
+    if (!quitting && settings.autoMode && settings.keepInTray !== false && tray) {
       e.preventDefault(); // keep sleeping in the tray
       win.hide();
     }
@@ -338,6 +345,6 @@ if (!gotLock) {
   });
   app.on('before-quit', () => { quitting = true; if (cache) cache.flush(); });
   app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin' && !(settings && settings.autoMode && tray)) app.quit();
+    if (process.platform !== 'darwin' && !(settings && settings.autoMode && settings.keepInTray !== false && tray)) app.quit();
   });
 }

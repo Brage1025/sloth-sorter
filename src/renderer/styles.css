@@ -223,3 +223,6 @@ textarea::-webkit-scrollbar-thumb { border-width: 3px; }
 
 .folder-ico { color: var(--amber); vertical-align: -3px; flex: none; }
 .cat-name { display: inline-flex; align-items: center; gap: 8px; }
+
+a { color: var(--moss); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+a:hover { filter: brightness(1.15); }

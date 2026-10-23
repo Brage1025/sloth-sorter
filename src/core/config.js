@@ -72,6 +72,7 @@ const DEFAULT_SETTINGS = {
   autoMode: false,
   autoMinutes: 5, // how long a file must sit untouched before auto mode picks it up
   startAtLogin: false,
+  keepInTray: true, // closing the window keeps Sleep mode running in the tray / menu bar
   setupSkipped: false,
 };
 
