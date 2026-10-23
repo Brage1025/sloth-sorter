@@ -141,3 +141,12 @@ Honest limits, so nothing surprises you.
 ## License
 
 MIT. Models are subject to their own licenses (e.g. Gemma's terms).
+
+---
+
+<div align="center">
+
+_"To &lt;div&gt; or not to &lt;div&gt;, that is the question."_
+— [Brage1025](https://github.com/Brage1025)
+
+</div>
